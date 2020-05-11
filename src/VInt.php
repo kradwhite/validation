@@ -17,24 +17,21 @@ class VInt implements Validation
 {
     use ValidTrait;
 
-    /** @var int */
-    private int $value;
-
     /**
-     * @param int $v
+     * @param int ...$v
      */
-    public function __construct(int $v)
+    public function __construct(int ...$v)
     {
-        $this->value = $v;
+        $this->values = $v;
     }
 
     /**
-     * @param int $v
+     * @param int ...$v
      * @return VInt
      */
-    public static function init(int $v)
+    public static function init(int ...$v)
     {
-        return new VInt($v);
+        return new VInt(...$v);
     }
 
     /**
@@ -44,7 +41,9 @@ class VInt implements Validation
      */
     public function between(int $l, int $r): VInt
     {
-        $this->valid = $this->valid && $this->value > $l && $this->value < $r;
+        $this->rules[] = function (int $value) use ($l, $r): bool {
+            return $value > $l && $value < $r;
+        };
         return $this;
     }
 
@@ -55,7 +54,9 @@ class VInt implements Validation
      */
     public function betweenEq(int $l, int $r): VInt
     {
-        $this->valid = $this->valid && $this->value >= $l && $this->value <= $r;
+        $this->rules[] = function (int $value) use ($l, $r): bool {
+            return $value >= $l && $value <= $r;
+        };
         return $this;
     }
 
@@ -64,7 +65,9 @@ class VInt implements Validation
      */
     public function zero(): VInt
     {
-        $this->valid = $this->valid && $this->value === 0;
+        $this->rules[] = function (int $value): bool {
+            return $value === 0;
+        };
         return $this;
     }
 
@@ -74,7 +77,9 @@ class VInt implements Validation
      */
     public function eq(int $t): VInt
     {
-        $this->valid = $this->valid && $this->value === $t;
+        $this->rules[] = function (int $value) use ($t): bool {
+            return $value === $t;
+        };
         return $this;
     }
 
@@ -84,7 +89,9 @@ class VInt implements Validation
      */
     public function higher(int $t): VInt
     {
-        $this->valid = $this->valid && $this->value > $t;
+        $this->rules[] = function (int $value) use ($t): bool {
+            return $value > $t;
+        };
         return $this;
     }
 
@@ -94,7 +101,9 @@ class VInt implements Validation
      */
     public function lower(int $t): VInt
     {
-        $this->valid = $this->valid && $this->value < $t;
+        $this->rules[] = function (int $value) use ($t): bool {
+            return $value < $t;
+        };
         return $this;
     }
 
@@ -104,7 +113,9 @@ class VInt implements Validation
      */
     public function higherEq(int $t): VInt
     {
-        $this->valid = $this->valid && $this->value >= $t;
+        $this->rules[] = function (int $value) use ($t): bool {
+            return $value >= $t;
+        };
         return $this;
     }
 
@@ -114,7 +125,9 @@ class VInt implements Validation
      */
     public function lowerEq(int $t): VInt
     {
-        $this->valid = $this->valid && $this->value <= $t;
+        $this->rules[] = function (int $value) use ($t): bool {
+            return $value <= $t;
+        };
         return $this;
     }
 
@@ -124,7 +137,9 @@ class VInt implements Validation
      */
     public function notEq(int $t): VInt
     {
-        $this->valid = $this->valid && $this->value !== $t;
+        $this->rules[] = function (int $value) use ($t): bool {
+            return $value !== $t;
+        };
         return $this;
     }
 
@@ -133,7 +148,9 @@ class VInt implements Validation
      */
     public function notZero(): VInt
     {
-        $this->valid = $this->valid && $this->value !== 0;
+        $this->rules[] = function (int $value): bool {
+            return $value !== 0;
+        };
         return $this;
     }
 
@@ -144,7 +161,9 @@ class VInt implements Validation
      */
     public function notBetween(int $l, int $r): VInt
     {
-        $this->valid = $this->valid && ($this->value < $l || $this->value > $r);
+        $this->rules[] = function (int $value) use ($l, $r): bool {
+            return $value < $l || $value > $r;
+        };
         return $this;
     }
 
@@ -155,7 +174,9 @@ class VInt implements Validation
      */
     public function notBetweenEq(int $l, int $r): VInt
     {
-        $this->valid = $this->valid && ($this->value <= $l || $this->value >= $r);
+        $this->rules[] = function (int $value) use ($l, $r): bool {
+            return $value <= $l || $value >= $r;
+        };
         return $this;
     }
 
@@ -164,7 +185,9 @@ class VInt implements Validation
      */
     public function negative(): VInt
     {
-        $this->valid = $this->valid && $this->value < 0;
+        $this->rules[] = function (int $value): bool {
+            return $value < 0;
+        };
         return $this;
     }
 
@@ -173,7 +196,9 @@ class VInt implements Validation
      */
     public function positive(): VInt
     {
-        $this->valid = $this->valid && $this->value > 0;
+        $this->rules[] = function (int $value): bool {
+            return $value > 0;
+        };
         return $this;
     }
 }

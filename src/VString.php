@@ -17,25 +17,22 @@ class VString implements Validation
 {
     use ValidTrait;
 
-    /** @var string */
-    private string $value;
-
     /**
      * VString constructor.
-     * @param string $v
+     * @param string ...$v
      */
-    public function __construct(string $v)
+    public function __construct(string ...$v)
     {
-        $this->value = $v;
+        $this->values = $v;
     }
 
     /**
-     * @param string $v
+     * @param string ...$v
      * @return VString
      */
-    public static function init(string $v): VString
+    public static function init(string ...$v): VString
     {
-        return new VString($v);
+        return new VString(...$v);
     }
 
     /**
@@ -44,7 +41,9 @@ class VString implements Validation
      */
     public function longer(int $c): VString
     {
-        $this->valid = $this->valid && strlen($this->value) > $c;
+        $this->rules[] = function (string $value) use ($c) {
+            return strlen($value) > $c;
+        };
         return $this;
     }
 
@@ -54,7 +53,9 @@ class VString implements Validation
      */
     public function shorter(int $c): VString
     {
-        $this->valid = $this->valid && strlen($this->value) < $c;
+        $this->rules[] = function (string $value) use ($c) {
+            return strlen($value) < $c;
+        };
         return $this;
     }
 
@@ -64,7 +65,9 @@ class VString implements Validation
      */
     public function longerEq(int $c): VString
     {
-        $this->valid = $this->valid && strlen($this->value) >= $c;
+        $this->rules[] = function (string $value) use ($c): bool {
+            return strlen($value) >= $c;
+        };
         return $this;
     }
 
@@ -74,7 +77,9 @@ class VString implements Validation
      */
     public function shorterEq(int $c): VString
     {
-        $this->valid = $this->valid && strlen($this->value) <= $c;
+        $this->rules[] = function (string $value) use ($c): bool {
+            return strlen($value) <= $c;
+        };
         return $this;
     }
 
@@ -84,7 +89,9 @@ class VString implements Validation
      */
     public function length(int $c): VString
     {
-        $this->valid = $this->valid && strlen($this->value) === $c;
+        $this->rules[] = function (string $value) use ($c): bool {
+            return strlen($value) === $c;
+        };
         return $this;
     }
 
@@ -94,7 +101,9 @@ class VString implements Validation
      */
     public function equals(string $t): VString
     {
-        $this->valid = $this->valid && $this->value == $t;
+        $this->rules[] = function (string $value) use (&$t): bool {
+            return $value == $t;
+        };
         return $this;
     }
 
@@ -104,7 +113,9 @@ class VString implements Validation
      */
     public function notEquals(string $t): VString
     {
-        $this->valid = $this->valid && $this->value != $t;
+        $this->rules[] = function (string $value) use (&$t): bool {
+            return $value != $t;
+        };
         return $this;
     }
 
@@ -115,8 +126,10 @@ class VString implements Validation
      */
     public function between(int $l, int $r): VString
     {
-        $len = strlen($this->value);
-        $this->valid = $this->valid && $len > $l && $len < $r;
+        $this->rules[] = function (string $value) use ($l, $r): bool {
+            $len = strlen($value);
+            return $len > $l && $len < $r;
+        };
         return $this;
     }
 
@@ -127,8 +140,10 @@ class VString implements Validation
      */
     public function betweenEq(int $l, int $r): VString
     {
-        $len = strlen($this->value);
-        $this->valid = $this->valid && $len >= $l && $len <= $r;
+        $this->rules[] = function (string $value) use ($l, $r): bool {
+            $len = strlen($value);
+            return $len >= $l && $len <= $r;
+        };
         return $this;
     }
 
@@ -139,8 +154,10 @@ class VString implements Validation
      */
     public function notBetween(int $l, int $r): VString
     {
-        $len = strlen($this->value);
-        $this->valid = $this->valid && ($len < $l || $len > $r);
+        $this->rules[] = function (string $value) use ($l, $r): bool {
+            $len = strlen($value);
+            return $len < $l || $len > $r;
+        };
         return $this;
     }
 
@@ -151,8 +168,10 @@ class VString implements Validation
      */
     public function notBetweenEq(int $l, int $r): VString
     {
-        $len = strlen($this->value);
-        $this->valid = $this->valid && ($len <= $l || $len >= $r);
+        $this->rules[] = function (string $value) use ($l, $r): bool {
+            $len = strlen($value);
+            return $len <= $l || $len >= $r;
+        };
         return $this;
     }
 
@@ -163,13 +182,13 @@ class VString implements Validation
      */
     public function match(string $p): VString
     {
-        if ($this->valid) {
-            $result = preg_match($p, $this->value);
+        $this->rules[] = function (string $value) use (&$p): bool {
+            $result = preg_match($p, $value);
             if (is_bool($result)) {
                 throw new ValidationException(preg_last_error());
             }
-            $this->valid = (bool)$result;
-        }
+            return (bool)$result;
+        };
         return $this;
     }
 
@@ -179,7 +198,9 @@ class VString implements Validation
      */
     public function contains(string $t): VString
     {
-        $this->valid = $this->valid && !is_bool(strpos($this->value, $t));
+        $this->rules[] = function (string $value) use (&$t): bool {
+            return !is_bool(strpos($value, $t));
+        };
         return $this;
     }
 
@@ -189,7 +210,9 @@ class VString implements Validation
      */
     public function notContains(string $t): VString
     {
-        $this->valid = $this->valid && is_bool(strpos($this->value, $t));
+        $this->rules[] = function (string $value) use (&$t): bool {
+            return is_bool(strpos($value, $t));
+        };
         return $this;
     }
 
@@ -198,7 +221,9 @@ class VString implements Validation
      */
     public function digits(): VString
     {
-        $this->valid = $this->valid && ctype_digit($this->value);
+        $this->rules[] = function (string $value): bool {
+            return ctype_digit($value);
+        };
         return $this;
     }
 
@@ -207,7 +232,9 @@ class VString implements Validation
      */
     public function notDigits(): VString
     {
-        $this->valid = $this->valid && !ctype_digit($this->value);
+        $this->rules[] = function (string $value): bool {
+            return !ctype_digit($value);
+        };
         return $this;
     }
 
@@ -216,7 +243,9 @@ class VString implements Validation
      */
     public function alpha(): VString
     {
-        $this->valid = $this->valid && ctype_alpha($this->value);
+        $this->rules[] = function (string $value): bool {
+            return ctype_alpha($value);
+        };
         return $this;
     }
 
@@ -225,7 +254,9 @@ class VString implements Validation
      */
     public function notAlpha(): VString
     {
-        $this->valid = $this->valid && !ctype_alpha($this->value);
+        $this->rules[] = function (string $value): bool {
+            return !ctype_alpha($value);
+        };
         return $this;
     }
 
@@ -234,7 +265,9 @@ class VString implements Validation
      */
     public function alphaDigits(): VString
     {
-        $this->valid = $this->valid && ctype_alnum($this->value);
+        $this->rules[] = function (string $value): bool {
+            return ctype_alnum($value);
+        };
         return $this;
     }
 
@@ -243,7 +276,9 @@ class VString implements Validation
      */
     public function notAlphaDigits(): VString
     {
-        $this->valid = $this->valid && !ctype_alnum($this->value);
+        $this->rules[] = function (string $value): bool {
+            return !ctype_alnum($value);
+        };
         return $this;
     }
 
@@ -253,7 +288,9 @@ class VString implements Validation
      */
     public function prefix(string $t): VString
     {
-        $this->valid = $this->valid && strpos($this->value, $t) === 0;
+        $this->rules[] = function (string $value) use (&$t): bool {
+            return strpos($value, $t) === 0;
+        };
         return $this;
     }
 
@@ -263,7 +300,9 @@ class VString implements Validation
      */
     public function suffix(string $t): VString
     {
-        $this->valid = $this->valid && strpos($this->value, $t) === strlen($this->value) - strlen($t);
+        $this->rules[] = function (string $value) use (&$t): bool {
+            return strpos($value, $t) === strlen($value) - strlen($t);
+        };
         return $this;
     }
 }

@@ -17,24 +17,21 @@ class VFloat implements Validation
 {
     use ValidTrait;
 
-    /** @var float */
-    private float $value;
-
     /**
-     * @param float $v
+     * @param float ...$v
      */
-    public function __construct(float $v)
+    public function __construct(float ...$v)
     {
-        $this->value = $v;
+        $this->values = $v;
     }
 
     /**
-     * @param float $v
+     * @param float ...$v
      * @return VFloat
      */
-    public static function init(float $v)
+    public static function init(float ...$v)
     {
-        return new VFloat($v);
+        return new VFloat(...$v);
     }
 
     /**
@@ -44,7 +41,9 @@ class VFloat implements Validation
      */
     public function between(float $l, float $r): VFloat
     {
-        $this->valid = $this->valid && $this->value > $l && $this->value < $r;
+        $this->rules[] = function (float $value) use ($l, $r): bool {
+            return $value > $l && $value < $r;
+        };
         return $this;
     }
 
@@ -55,7 +54,9 @@ class VFloat implements Validation
      */
     public function betweenEq(float $l, float $r): VFloat
     {
-        $this->valid = $this->valid && $this->value >= $l && $this->value <= $r;
+        $this->rules[] = function (float $value) use ($l, $r): bool {
+            return $value >= $l && $value <= $r;
+        };
         return $this;
     }
 
@@ -64,7 +65,9 @@ class VFloat implements Validation
      */
     public function zero(): VFloat
     {
-        $this->valid = $this->valid && $this->value === 0.0;
+        $this->rules[] = function (float $value) {
+            return $value === 0.0;
+        };
         return $this;
     }
 
@@ -74,7 +77,9 @@ class VFloat implements Validation
      */
     public function eq(float $t): VFloat
     {
-        $this->valid = $this->valid && $this->value === $t;
+        $this->rules[] = function (float $value) use ($t): bool {
+            return $value === $t;
+        };
         return $this;
     }
 
@@ -84,7 +89,9 @@ class VFloat implements Validation
      */
     public function higher(float $t): VFloat
     {
-        $this->valid = $this->valid && $this->value > $t;
+        $this->rules[] = function (float $value) use ($t): bool {
+            return $value > $t;
+        };
         return $this;
     }
 
@@ -94,7 +101,9 @@ class VFloat implements Validation
      */
     public function lower(float $t): VFloat
     {
-        $this->valid = $this->valid && $this->value < $t;
+        $this->rules[] = function (float $value) use ($t): bool {
+            return $value < $t;
+        };
         return $this;
     }
 
@@ -104,7 +113,9 @@ class VFloat implements Validation
      */
     public function higherEq(float $t): VFloat
     {
-        $this->valid = $this->valid && $this->value >= $t;
+        $this->valid = function (float $value) use ($t): bool {
+            return $value >= $t;
+        };
         return $this;
     }
 
@@ -114,7 +125,9 @@ class VFloat implements Validation
      */
     public function lowerEq(float $t): VFloat
     {
-        $this->valid = $this->valid && $this->value <= $t;
+        $this->rules[] = function (float $value) use ($t): bool {
+            return $value <= $t;
+        };
         return $this;
     }
 
@@ -124,7 +137,9 @@ class VFloat implements Validation
      */
     public function notEq(float $t): VFloat
     {
-        $this->valid = $this->valid && $this->value !== $t;
+        $this->rules[] = function (float $value) use ($t): bool {
+            return $value !== $t;
+        };
         return $this;
     }
 
@@ -133,7 +148,9 @@ class VFloat implements Validation
      */
     public function notZero(): VFloat
     {
-        $this->valid = $this->valid && $this->value !== 0.0;
+        $this->rules[] = function (float $value) {
+            return $value !== 0.0;
+        };
         return $this;
     }
 
@@ -144,7 +161,9 @@ class VFloat implements Validation
      */
     public function notBetween(float $l, float $r): VFloat
     {
-        $this->valid = $this->valid && ($this->value < $l || $this->value > $r);
+        $this->rules[] = function (float $value) use ($l, $r): bool {
+            return $value < $l || $value > $r;
+        };
         return $this;
     }
 
@@ -155,7 +174,9 @@ class VFloat implements Validation
      */
     public function notBetweenEq(float $l, float $r): VFloat
     {
-        $this->valid = $this->valid && ($this->value <= $l || $this->value >= $r);
+        $this->rules[] = function (float $value) use ($l, $r): bool {
+            return $value <= $l || $value >= $r;
+        };
         return $this;
     }
 
@@ -164,7 +185,9 @@ class VFloat implements Validation
      */
     public function negative(): VFloat
     {
-        $this->valid = $this->valid && $this->value < 0.0;
+        $this->rules[] = function (float $value): bool {
+            return $value < 0.0;
+        };
         return $this;
     }
 
@@ -173,7 +196,9 @@ class VFloat implements Validation
      */
     public function positive(): VFloat
     {
-        $this->valid = $this->valid && $this->value > 0.0;
+        $this->rules[] = function (float $value): bool {
+            return $value > 0.0;
+        };
         return $this;
     }
 }
