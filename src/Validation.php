@@ -13,8 +13,8 @@ namespace kradwhite\validation;
  * Interface Validation
  * @package kradwhite\validation
  */
-interface Validation {
-
+interface Validation
+{
     /**
      * @return bool
      */
