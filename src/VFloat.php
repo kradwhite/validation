@@ -113,7 +113,7 @@ class VFloat implements Validation
      */
     public function higherEq(float $t): VFloat
     {
-        $this->valid = function (float $value) use ($t): bool {
+        $this->rules[] = function (float $value) use ($t): bool {
             return $value >= $t;
         };
         return $this;
@@ -198,6 +198,18 @@ class VFloat implements Validation
     {
         $this->rules[] = function (float $value): bool {
             return $value > 0.0;
+        };
+        return $this;
+    }
+
+    /**
+     * @param float ...$vs
+     * @return $this
+     */
+    public function in(float ...$vs): VFloat
+    {
+        $this->rules[] = function (float $value) use (&$vs): bool {
+            return in_array($value, $vs);
         };
         return $this;
     }

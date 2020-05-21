@@ -151,4 +151,10 @@ class VStringTest extends \Codeception\Test\Unit
         $this->assertTrue(VString::init("string_suffix")->suffix("suffix")->check());
         $this->assertFalse(VString::init("string_suffix")->suffix("suf")->check());
     }
+
+    public function testIn()
+    {
+        $this->assertTrue(VString::init('str')->in('str2', 'str3', 'str')->check());
+        $this->assertFalse(VString::init('str')->in('str1', 'str3')->check());
+    }
 }

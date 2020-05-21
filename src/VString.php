@@ -305,4 +305,16 @@ class VString implements Validation
         };
         return $this;
     }
+
+    /**
+     * @param string ...$vs
+     * @return $this
+     */
+    public function in(string ...$vs): VString
+    {
+        $this->rules[] = function (string $value) use (&$vs): bool {
+            return in_array($value, $vs);
+        };
+        return $this;
+    }
 }

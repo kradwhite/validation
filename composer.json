@@ -20,7 +20,8 @@
     ],
     "require": {
         "php": "~7.4",
-        "ext-ctype": "*"
+        "ext-ctype": "*",
+        "kradwhite/language": "*"
     },
     "require-dev": {
         "codeception/codeception": "^4.1",

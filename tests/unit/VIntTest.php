@@ -103,4 +103,10 @@ class VIntTest extends \Codeception\Test\Unit
         $this->assertTrue(VInt::init(10)->positive()->check());
         $this->assertFalse(VInt::init(0)->positive()->check());
     }
+
+    public function testIn()
+    {
+        $this->assertTrue(VInt::init(10)->in(100, 20, 30, 10)->check());
+        $this->assertFalse(VInt::init(0)->in(100, 20, 20)->check());
+    }
 }

@@ -201,4 +201,16 @@ class VInt implements Validation
         };
         return $this;
     }
+
+    /**
+     * @param int ...$vs
+     * @return $this
+     */
+    public function in(int ...$vs): VInt
+    {
+        $this->rules[] = function (int $value) use (&$vs): bool {
+            return in_array($value, $vs);
+        };
+        return $this;
+    }
 }

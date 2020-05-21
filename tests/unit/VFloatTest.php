@@ -103,4 +103,10 @@ class VFloatTest extends \Codeception\Test\Unit
         $this->assertTrue(VFloat::init(10.1)->positive()->check());
         $this->assertFalse(VFloat::init(0.0)->positive()->check());
     }
+
+    public function testIn()
+    {
+        $this->assertTrue(VFloat::init(1.01)->in(100.1, 20.3, 1.01)->check());
+        $this->assertFalse(VFloat::init(0.33)->in(100, 20, 20)->check());
+    }
 }
