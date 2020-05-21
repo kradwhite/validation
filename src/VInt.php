@@ -41,8 +41,9 @@ class VInt implements Validation
      */
     public function between(int $l, int $r): VInt
     {
-        $this->rules[] = function (int $value) use ($l, $r): bool {
-            return $value > $l && $value < $r;
+        $this->checkParams['between'] = [$l, $r];
+        $this->check['between'] = function (int $value): bool {
+            return $value > $this->checkParams['between'][0] && $value < $this->checkParams['between'][1];
         };
         return $this;
     }
@@ -54,8 +55,9 @@ class VInt implements Validation
      */
     public function betweenEq(int $l, int $r): VInt
     {
-        $this->rules[] = function (int $value) use ($l, $r): bool {
-            return $value >= $l && $value <= $r;
+        $this->checkParams['notBetweenEq'] = [$l, $r];
+        $this->check['betweenEq'] = function (int $value): bool {
+            return $value >= $this->checkParams['notBetweenEq'][0] && $value <= $this->checkParams['notBetweenEq'][1];
         };
         return $this;
     }
@@ -65,7 +67,7 @@ class VInt implements Validation
      */
     public function zero(): VInt
     {
-        $this->rules[] = function (int $value): bool {
+        $this->check['zero'] = function (int $value): bool {
             return $value === 0;
         };
         return $this;
@@ -77,8 +79,9 @@ class VInt implements Validation
      */
     public function eq(int $t): VInt
     {
-        $this->rules[] = function (int $value) use ($t): bool {
-            return $value === $t;
+        $this->checkParams['eq'] = $t;
+        $this->check['eq'] = function (int $value): bool {
+            return $value === $this->checkParams['eq'];
         };
         return $this;
     }
@@ -89,8 +92,9 @@ class VInt implements Validation
      */
     public function higher(int $t): VInt
     {
-        $this->rules[] = function (int $value) use ($t): bool {
-            return $value > $t;
+        $this->checkParams['higher'] = $t;
+        $this->check['higher'] = function (int $value): bool {
+            return $value > $this->checkParams['higher'];
         };
         return $this;
     }
@@ -101,8 +105,9 @@ class VInt implements Validation
      */
     public function lower(int $t): VInt
     {
-        $this->rules[] = function (int $value) use ($t): bool {
-            return $value < $t;
+        $this->checkParams['lower'] = $t;
+        $this->check['lower'] = function (int $value): bool {
+            return $value < $this->checkParams['lower'];
         };
         return $this;
     }
@@ -113,8 +118,9 @@ class VInt implements Validation
      */
     public function higherEq(int $t): VInt
     {
-        $this->rules[] = function (int $value) use ($t): bool {
-            return $value >= $t;
+        $this->checkParams['higherEq'] = $t;
+        $this->check['higherEq'] = function (int $value): bool {
+            return $value >= $this->checkParams['higherEq'];
         };
         return $this;
     }
@@ -125,8 +131,9 @@ class VInt implements Validation
      */
     public function lowerEq(int $t): VInt
     {
-        $this->rules[] = function (int $value) use ($t): bool {
-            return $value <= $t;
+        $this->checkParams['lowerEq'] = $t;
+        $this->check['lowerEq'] = function (int $value): bool {
+            return $value <= $this->checkParams['lowerEq'];
         };
         return $this;
     }
@@ -137,8 +144,9 @@ class VInt implements Validation
      */
     public function notEq(int $t): VInt
     {
-        $this->rules[] = function (int $value) use ($t): bool {
-            return $value !== $t;
+        $this->checkParams['notEq'] = $t;
+        $this->check['notEq'] = function (int $value): bool {
+            return $value !== $this->checkParams['notEq'];
         };
         return $this;
     }
@@ -148,7 +156,7 @@ class VInt implements Validation
      */
     public function notZero(): VInt
     {
-        $this->rules[] = function (int $value): bool {
+        $this->check['notZero'] = function (int $value): bool {
             return $value !== 0;
         };
         return $this;
@@ -161,8 +169,9 @@ class VInt implements Validation
      */
     public function notBetween(int $l, int $r): VInt
     {
-        $this->rules[] = function (int $value) use ($l, $r): bool {
-            return $value < $l || $value > $r;
+        $this->checkParams['notBetween'] = [$l, $r];
+        $this->check['notBetween'] = function (int $value): bool {
+            return $value < $this->checkParams['notBetween'][0] || $value > $this->checkParams['notBetween'][1];
         };
         return $this;
     }
@@ -174,8 +183,9 @@ class VInt implements Validation
      */
     public function notBetweenEq(int $l, int $r): VInt
     {
-        $this->rules[] = function (int $value) use ($l, $r): bool {
-            return $value <= $l || $value >= $r;
+        $this->checkParams['notBetweenEq'] = [$l, $r];
+        $this->check['notBetweenEq'] = function (int $value) use ($l, $r): bool {
+            return $value <= $this->checkParams['notBetweenEq'][0] || $value >= $this->checkParams['notBetweenEq'][1];
         };
         return $this;
     }
@@ -185,7 +195,7 @@ class VInt implements Validation
      */
     public function negative(): VInt
     {
-        $this->rules[] = function (int $value): bool {
+        $this->check['negative'] = function (int $value): bool {
             return $value < 0;
         };
         return $this;
@@ -196,7 +206,7 @@ class VInt implements Validation
      */
     public function positive(): VInt
     {
-        $this->rules[] = function (int $value): bool {
+        $this->check['positive'] = function (int $value): bool {
             return $value > 0;
         };
         return $this;
@@ -208,8 +218,9 @@ class VInt implements Validation
      */
     public function in(int ...$vs): VInt
     {
-        $this->rules[] = function (int $value) use (&$vs): bool {
-            return in_array($value, $vs);
+        $this->checkParams['in'] = $vs;
+        $this->check['in'] = function (int $value): bool {
+            return in_array($value, $this->checkParams['in']);
         };
         return $this;
     }

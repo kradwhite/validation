@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace kradwhite\validation;
 
-use phpDocumentor\Reflection\Types\Callable_;
-
 /**
  * Trait ValidTrait
  * @package kradwhite\validation
@@ -21,16 +19,23 @@ trait ValidTrait
     private array $values;
 
     /** @var callable[] */
-    private array $rules = [];
+    private array $check = [];
+
+    /** @var array */
+    private array $checkParams = [];
+
+    /** @var string */
+    private string $errorId = '';
 
     /**
      * @return bool
      */
     public function check(): bool
     {
-        for ($i = 0; $i < count($this->rules); $i++) {
+        foreach ($this->check as $errorKey => $rule) {
             for ($j = 0; $j < count($this->values); $j++) {
-                if (!$this->rules[$i]($this->values[$j])) {
+                if (!$rule($this->values[$j])) {
+                    $this->errorId = $errorKey;
                     return false;
                 }
             }
