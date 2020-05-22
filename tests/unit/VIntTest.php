@@ -22,8 +22,8 @@ class VIntTest extends \Codeception\Test\Unit
     // tests
     public function testBetween()
     {
-        $this->assertTrue(VInt::init(5)->between(1, 10)->check());
-        $this->assertFalse(VInt::init(5)->between(5, 10)->check());
+        $this->assertEquals('', VInt::init(5)->between(1, 10)->message('Число'));
+        $this->assertEquals('', VInt::init(5)->between(5, 10)->message('Число'));
     }
 
     public function testBetweenEq()

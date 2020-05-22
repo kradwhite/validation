@@ -220,7 +220,10 @@ class VInt implements Validation
     {
         $this->checkParams['in'] = $vs;
         $this->checks['in'] = function (int $value): bool {
-            return in_array($value, $this->checkParams['in']);
+            if (!$result = in_array($value, $this->checkParams['in'])) {
+                $this->checkParams['in'] = implode(', ', $this->checkParams['in']);
+            }
+            return $result;
         };
         return $this;
     }
@@ -233,7 +236,10 @@ class VInt implements Validation
     {
         $this->checkParams['notIn'] = $vs;
         $this->checks['notIn'] = function (int $value): bool {
-            return !in_array($value, $this->checkParams['notIn']);
+            if (!$result = !in_array($value, $this->checkParams['notIn'])) {
+                $this->checkParams['notIn'] = implode(', ', $this->checkParams['notIn']);
+            }
+            return $result;
         };
         return $this;
     }

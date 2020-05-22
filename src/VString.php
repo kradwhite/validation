@@ -133,10 +133,10 @@ class VString implements Validation
      */
     public function between(int $l, int $r): VString
     {
-        $this->checkParams['between'] = [$l, $r];
-        $this->checks['between'] = function (string $value): bool {
+        $this->checkParams['strBetween'] = [$l, $r];
+        $this->checks['strBetween'] = function (string $value): bool {
             $len = strlen($value);
-            return $len > $this->checkParams['between'][0] && $len < $this->checkParams['between'][1];
+            return $len > $this->checkParams['strBetween'][0] && $len < $this->checkParams['strBetween'][1];
         };
         return $this;
     }
@@ -148,10 +148,10 @@ class VString implements Validation
      */
     public function betweenEq(int $l, int $r): VString
     {
-        $this->checkParams['betweenEq'] = [$l, $r];
-        $this->checks['betweenEq'] = function (string $value): bool {
+        $this->checkParams['strBetweenEq'] = [$l, $r];
+        $this->checks['strBetweenEq'] = function (string $value): bool {
             $len = strlen($value);
-            return $len >= $this->checkParams['betweenEq'][0] && $len <= $this->checkParams['betweenEq'][1];
+            return $len >= $this->checkParams['strBetweenEq'][0] && $len <= $this->checkParams['strBetweenEq'][1];
         };
         return $this;
     }
@@ -163,10 +163,10 @@ class VString implements Validation
      */
     public function notBetween(int $l, int $r): VString
     {
-        $this->checkParams['notBetween'] = [$l, $r];
-        $this->checks['notBetween'] = function (string $value): bool {
+        $this->checkParams['strNotBetween'] = [$l, $r];
+        $this->checks['strNotBetween'] = function (string $value): bool {
             $len = strlen($value);
-            return $len < $this->checkParams['notBetween'][0] || $len > $this->checkParams['notBetween'][1];
+            return $len < $this->checkParams['strNotBetween'][0] || $len > $this->checkParams['strNotBetween'][1];
         };
         return $this;
     }
@@ -178,10 +178,10 @@ class VString implements Validation
      */
     public function notBetweenEq(int $l, int $r): VString
     {
-        $this->checkParams['notBetweenEq'] = [$l, $r];
-        $this->checks['notBetweenEq'] = function (string $value): bool {
+        $this->checkParams['strNotBetweenEq'] = [$l, $r];
+        $this->checks['strNotBetweenEq'] = function (string $value): bool {
             $len = strlen($value);
-            return $len <= $this->checkParams['notBetweenEq'][0] || $len >= $this->checkParams['notBetweenEq'][1];
+            return $len <= $this->checkParams['strNotBetweenEq'][0] || $len >= $this->checkParams['strNotBetweenEq'][1];
         };
         return $this;
     }
