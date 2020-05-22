@@ -10,7 +10,7 @@ class VIntTest extends \Codeception\Test\Unit
      * @var \UnitTester
      */
     protected $tester;
-    
+
     protected function _before()
     {
     }
@@ -108,5 +108,11 @@ class VIntTest extends \Codeception\Test\Unit
     {
         $this->assertTrue(VInt::init(10)->in(100, 20, 30, 10)->check());
         $this->assertFalse(VInt::init(0)->in(100, 20, 20)->check());
+    }
+
+    public function testNotIn()
+    {
+        $this->assertTrue(VInt::init(10)->notIn(100, 20, 30)->check());
+        $this->assertFalse(VInt::init(0)->in(100, 20, 20, 10)->check());
     }
 }

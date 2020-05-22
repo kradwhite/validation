@@ -157,4 +157,10 @@ class VStringTest extends \Codeception\Test\Unit
         $this->assertTrue(VString::init('str')->in('str2', 'str3', 'str')->check());
         $this->assertFalse(VString::init('str')->in('str1', 'str3')->check());
     }
+
+    public function testNotIn()
+    {
+        $this->assertTrue(VString::init('str')->notIn('str2', 'str3')->check());
+        $this->assertFalse(VString::init('str')->notIn('str1', 'str3', 'str')->check());
+    }
 }

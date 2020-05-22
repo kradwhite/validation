@@ -109,4 +109,10 @@ class VFloatTest extends \Codeception\Test\Unit
         $this->assertTrue(VFloat::init(1.01)->in(100.1, 20.3, 1.01)->check());
         $this->assertFalse(VFloat::init(0.33)->in(100, 20, 20)->check());
     }
+
+    public function testNotIn()
+    {
+        $this->assertTrue(VFloat::init(1.01)->notIn(100.1, 20.3)->check());
+        $this->assertFalse(VFloat::init(1.01)->notIn(100, 20, 20, 1.01)->check());
+    }
 }
