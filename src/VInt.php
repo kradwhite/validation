@@ -55,9 +55,9 @@ class VInt implements Validation
      */
     public function betweenEq(int $l, int $r): VInt
     {
-        $this->checkParams['notBetweenEq'] = [$l, $r];
+        $this->checkParams['betweenEq'] = [$l, $r];
         $this->checks['betweenEq'] = function (int $value): bool {
-            return $value >= $this->checkParams['notBetweenEq'][0] && $value <= $this->checkParams['notBetweenEq'][1];
+            return $value >= $this->checkParams['betweenEq'][0] && $value <= $this->checkParams['betweenEq'][1];
         };
         return $this;
     }

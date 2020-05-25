@@ -12,7 +12,6 @@ namespace kradwhite\validation;
 use kradwhite\db\exception\DbException;
 use kradwhite\language\Lang;
 use kradwhite\language\LangException;
-use phpDocumentor\Reflection\Types\Static_;
 
 /**
  * Trait ValidTrait
@@ -63,14 +62,14 @@ trait ValidTrait
     {
         try {
             if (!self::$lang) {
-                self::$lang = Lang::init(require_once __DIR__ . '/../language.php', self::$locale);
+                self::$lang = Lang::init(__DIR__ . '/../language.php', self::$locale);
             }
             if (!$this->check()) {
                 $checkParams = isset($this->checkParams[$this->errorId]) ? $this->checkParams[$this->errorId] : [];
                 if (!is_array($checkParams)) {
                     $checkParams = [$checkParams];
                 }
-                return $this->lang->phrase('validation', $this->errorId, array_merge([$name], $checkParams));
+                return self::$lang->phrase('validation', $this->errorId, array_merge([$name], $checkParams));
             }
             return '';
         } catch (DbException|LangException $e) {

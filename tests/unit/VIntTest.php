@@ -23,96 +23,104 @@ class VIntTest extends \Codeception\Test\Unit
     public function testBetween()
     {
         $this->assertEquals('', VInt::init(5)->between(1, 10)->message('Число'));
-        $this->assertEquals('', VInt::init(5)->between(5, 10)->message('Число'));
+        $this->assertEquals('Число выходит за пределы между 5 и 10',
+            VInt::init(5)->between(5, 10)->message('Число'));
     }
 
     public function testBetweenEq()
     {
-        $this->assertTrue(VInt::init(5)->betweenEq(5, 10)->check());
-        $this->assertFalse(VInt::init(5)->betweenEq(6, 10)->check());
+        $this->assertEquals('', VInt::init(5)->betweenEq(5, 10)->message('Число'));
+        $this->assertEquals('Число выходит за пределы между 6 и 10 включительно',
+            VInt::init(5)->betweenEq(6, 10)->message('Число'));
     }
 
     public function testZero()
     {
-        $this->assertTrue(VInt::init(0)->zero()->check());
-        $this->assertFalse(VInt::init(5)->zero()->check());
+        $this->assertEquals('', VInt::init(0)->zero()->message('Число'));
+        $this->assertEquals('Число не равно нулю', VInt::init(5)->zero()->message('Число'));
     }
 
     public function testEq()
     {
-        $this->assertTrue(VInt::init(10)->eq(10)->check());
-        $this->assertFalse(VInt::init(5)->eq(11)->check());
+        $this->assertEquals('', VInt::init(10)->eq(10)->message('Число'));
+        $this->assertEquals('Число не равно 11', VInt::init(5)->eq(11)->message('Число'));
     }
 
     public function testHigher()
     {
-        $this->assertTrue(VInt::init(10)->higher(5)->check());
-        $this->assertFalse(VInt::init(5)->higher(5)->check());
+        $this->assertEquals('', VInt::init(10)->higher(5)->message('Число'));
+        $this->assertEquals('Число меньше или равно 5', VInt::init(5)->higher(5)->message('Число'));
     }
 
     public function testLower()
     {
-        $this->assertTrue(VInt::init(5)->lower(10)->check());
-        $this->assertFalse(VInt::init(5)->lower(5)->check());
+        $this->assertEquals('', VInt::init(5)->lower(10)->message('Число'));
+        $this->assertEquals('Число больше или равно 5', VInt::init(5)->lower(5)->message('Число'));
     }
 
     public function testHigherEq()
     {
-        $this->assertTrue(VInt::init(10)->higherEq(10)->check());
-        $this->assertFalse(VInt::init(5)->higherEq(10)->check());
+        $this->assertEquals('', VInt::init(10)->higherEq(10)->message('Число'));
+        $this->assertEquals('Число меньше чем 10', VInt::init(5)->higherEq(10)->message('Число'));
     }
 
     public function testLowerEq()
     {
-        $this->assertTrue(VInt::init(5)->lowerEq(5)->check());
-        $this->assertFalse(VInt::init(5)->lowerEq(1)->check());
+        $this->assertEquals('', VInt::init(5)->lowerEq(5)->message('Число'));
+        $this->assertEquals('Число больше чем 1', VInt::init(5)->lowerEq(1)->message('Число'));
     }
 
     public function testNotEq()
     {
-        $this->assertTrue(VInt::init(15)->notEq(5)->check());
-        $this->assertFalse(VInt::init(5)->notEq(5)->check());
+        $this->assertEquals('', VInt::init(15)->notEq(5)->message('Число'));
+        $this->assertEquals('Число равно 5', VInt::init(5)->notEq(5)->message('Число'));
     }
 
     public function testNotZero()
     {
-        $this->assertTrue(VInt::init(15)->notZero()->check());
-        $this->assertFalse(VInt::init(0)->notZero()->check());
+        $this->assertEquals('', VInt::init(15)->notZero()->message('Число'));
+        $this->assertEquals('Число равно нулю', VInt::init(0)->notZero()->message('Число'));
     }
 
     public function testNotBetween()
     {
-        $this->assertTrue(VInt::init(15)->notBetween(30, 40)->check());
-        $this->assertFalse(VInt::init(15)->notBetween(14, 30)->check());
+        $this->assertEquals('', VInt::init(15)->notBetween(30, 40)->message('Число'));
+        $this->assertEquals('Число находится в пределах 14 и 30',
+            VInt::init(15)->notBetween(14, 30)->message('Число'));
     }
 
     public function testNotBetweenEq()
     {
-        $this->assertTrue(VInt::init(15)->notBetweenEq(30, 40)->check());
-        $this->assertFalse(VInt::init(15)->notBetweenEq(14, 30)->check());
+        $this->assertEquals('', VInt::init(15)->notBetweenEq(30, 40)->message('Число'));
+        $this->assertEquals('Число находится в пределах 14 и 30 включительно',
+            VInt::init(15)->notBetweenEq(14, 30)->message('Число'));
     }
 
     public function testNegative()
     {
-        $this->assertTrue(VInt::init(-1)->negative()->check());
-        $this->assertFalse(VInt::init(0)->negative()->check());
+        $this->assertEquals('', VInt::init(-1)->negative()->message('Число'));
+        $this->assertEquals('Число больше или равно нулю',
+            VInt::init(0)->negative()->message('Число'));
     }
 
     public function testPositive()
     {
-        $this->assertTrue(VInt::init(10)->positive()->check());
-        $this->assertFalse(VInt::init(0)->positive()->check());
+        $this->assertEquals('', VInt::init(10)->positive()->message('Число'));
+        $this->assertEquals('Число меньше или равно нулю',
+            VInt::init(0)->positive()->message('Число'));
     }
 
     public function testIn()
     {
-        $this->assertTrue(VInt::init(10)->in(100, 20, 30, 10)->check());
-        $this->assertFalse(VInt::init(0)->in(100, 20, 20)->check());
+        $this->assertEquals('', VInt::init(10)->in(100, 20, 30, 10)->message('Число'));
+        $this->assertEquals('Число не входит в список значений 100, 20, 10',
+            VInt::init(0)->in(100, 20, 10)->message('Число'));
     }
 
     public function testNotIn()
     {
-        $this->assertTrue(VInt::init(10)->notIn(100, 20, 30)->check());
-        $this->assertFalse(VInt::init(0)->in(100, 20, 20, 10)->check());
+        $this->assertEquals('', VInt::init(10)->notIn(100, 20, 30)->message('Число'));
+        $this->assertEquals('Число входит в спискок значений 100, 30, 20, 10',
+            VInt::init(10)->notIn(100, 30, 20, 10)->message('Число'));
     }
 }

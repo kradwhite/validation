@@ -58,16 +58,16 @@
         },
         {
             "name": "kradwhite/language",
-            "version": "0.10",
+            "version": "0.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kradwhite/language.git",
-                "reference": "0293a70704b6181c1f794743005232c159819a4d"
+                "reference": "c4198db13e5691e90d53c401ad6ed5bb0b5411ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kradwhite/language/zipball/0293a70704b6181c1f794743005232c159819a4d",
-                "reference": "0293a70704b6181c1f794743005232c159819a4d",
+                "url": "https://api.github.com/repos/kradwhite/language/zipball/c4198db13e5691e90d53c401ad6ed5bb0b5411ce",
+                "reference": "c4198db13e5691e90d53c401ad6ed5bb0b5411ce",
                 "shasum": ""
             },
             "require": {
@@ -120,7 +120,7 @@
                 "locale",
                 "message"
             ],
-            "time": "2020-05-21T15:47:22+00:00"
+            "time": "2020-05-23T07:07:46+00:00"
         },
         {
             "name": "psr/container",
@@ -1813,16 +1813,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.1.4",
+            "version": "9.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2d7080c622cf7884992e7c3cf87853877bae8ff4"
+                "reference": "1b570cd7edbe136055bf5f651857dc8af6b829d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2d7080c622cf7884992e7c3cf87853877bae8ff4",
-                "reference": "2d7080c622cf7884992e7c3cf87853877bae8ff4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1b570cd7edbe136055bf5f651857dc8af6b829d2",
+                "reference": "1b570cd7edbe136055bf5f651857dc8af6b829d2",
                 "shasum": ""
             },
             "require": {
@@ -1907,7 +1907,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-04-30T06:32:53+00:00"
+            "time": "2020-05-22T13:54:05+00:00"
         },
         {
             "name": "psr/event-dispatcher",
