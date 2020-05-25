@@ -22,8 +22,10 @@ class VIdTest extends \Codeception\Test\Unit
     // tests
     public function testCheck()
     {
-        $this->assertTrue(VId::check(3434));
-        $this->assertFalse(VId::check(-11));
-        $this->assertFalse(VId::check(2147483647 + 1));
+        $this->assertEquals('', VId::init(3434)->message('Идентификатор'));
+        $this->assertEquals('Значение Идентификатор должно быть больше 0 и меньше или равен 2147483647',
+            VId::init(-11)->message('Идентификатор'));
+        $this->assertEquals('Значение Идентификатор должно быть больше 0 и меньше или равен 2147483647',
+            VId::init(VId::Max + 1)->message('Идентификатор'));
     }
 }

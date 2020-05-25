@@ -330,7 +330,10 @@ class VString implements Validation
     {
         $this->checkParams['in'] = $vs;
         $this->checks['in'] = function (string $value): bool {
-            return in_array($value, $this->checkParams['in']);
+            if(!$result = in_array($value, $this->checkParams['in'])){
+                $this->checkParams['in'] = '[' . implode(', ', $this->checkParams['in']) . ']';
+            }
+            return $result;
         };
         return $this;
     }
@@ -343,7 +346,10 @@ class VString implements Validation
     {
         $this->checkParams['notIn'] = $vs;
         $this->checks['notIn'] = function (string $value): bool {
-            return !in_array($value, $this->checkParams['notIn']);
+            if(!$result = !in_array($value, $this->checkParams['notIn'])){
+                $this->checkParams['notIn'] = '[' . implode(', ', $this->checkParams['notIn']) . ']';
+            }
+            return $result;
         };
         return $this;
     }

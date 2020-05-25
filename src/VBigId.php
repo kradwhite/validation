@@ -15,12 +15,27 @@ namespace kradwhite\validation;
  */
 class VBigId
 {
+    use ValidTrait;
+
     /**
-     * @param int $v
-     * @return bool
+     * VId constructor.
+     * @param int ...$vs
      */
-    public static function check(int $v): bool
+    public function __construct(int ...$vs)
     {
-        return $v > 0 && $v <= PHP_INT_MAX;
+        $this->values = $vs;
+        $this->checkParams['id'] = PHP_INT_MAX;
+        $this->checks['id'] = function (int $value): bool {
+            return $value > 0 && $value <= PHP_INT_MAX;
+        };
+    }
+
+    /**
+     * @param int ...$vs
+     * @return VId
+     */
+    public static function init(int ...$vs): VBigId
+    {
+        return new VBigId(...$vs);
     }
 }

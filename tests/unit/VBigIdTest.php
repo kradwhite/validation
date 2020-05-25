@@ -21,7 +21,8 @@ class VBigIdTest extends \Codeception\Test\Unit
 
     public function testCheck()
     {
-        $this->assertTrue(VBigId::check(3434));
-        $this->assertFalse(VBigId::check(-11));
+        $this->assertEquals('', VBigId::init(3434)->message('Идентификатор'));
+        $this->assertEquals('Значение Идентификатор должно быть больше 0 и меньше или равен ' . PHP_INT_MAX,
+            VBigId::init(-11)->message('Идентификатор'));
     }
 }

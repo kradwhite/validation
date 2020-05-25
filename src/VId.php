@@ -15,12 +15,30 @@ namespace kradwhite\validation;
  */
 class VId
 {
+    /** @var int */
+    const Max = 2147483647;
+
+    use ValidTrait;
+
     /**
-     * @param int $v
-     * @return bool
+     * VId constructor.
+     * @param int ...$vs
      */
-    public static function check(int $v): bool
+    public function __construct(int ...$vs)
     {
-        return $v > 0 && $v <= 2147483647;
+        $this->values = $vs;
+        $this->checkParams['id'] = self::Max;
+        $this->checks['id'] = function (int $value): bool {
+            return $value > 0 && $value <= self::Max;
+        };
+    }
+
+    /**
+     * @param int ...$vs
+     * @return VId
+     */
+    public static function init(int ...$vs): VId
+    {
+        return new VId(...$vs);
     }
 }
