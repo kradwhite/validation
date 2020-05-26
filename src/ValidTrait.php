@@ -31,6 +31,9 @@ trait ValidTrait
     /** @var string */
     private string $errorId = '';
 
+    /** @var int */
+    private int $i = 0;
+
     /** @var Lang */
     private static ?Lang $lang = null;
 
@@ -42,11 +45,14 @@ trait ValidTrait
      */
     public function check(): bool
     {
-        foreach ($this->checks as $errorKey => $rule) {
-            for ($j = 0; $j < count($this->values); $j++) {
-                if (!$rule($this->values[$j])) {
-                    $this->errorId = $errorKey;
-                    return false;
+        foreach ($this->checks as $errorId => $rules) {
+            for ($i = 0; $i < count($rules); $i++) {
+                for ($j = 0; $j < count($this->values); $j++) {
+                    if (!$rules[$i]($this->values[$j], $i)) {
+                        $this->errorId = $errorId;
+                        $this->i = $i;
+                        return false;
+                    }
                 }
             }
         }
@@ -63,7 +69,9 @@ trait ValidTrait
         try {
             $this->getLang();
             if (!$this->check()) {
-                $checkParams = isset($this->checkParams[$this->errorId]) ? $this->checkParams[$this->errorId] : [];
+                $checkParams = isset($this->checkParams[$this->errorId][$this->i])
+                    ? $this->checkParams[$this->errorId][$this->i]
+                    : [];
                 if (!is_array($checkParams)) {
                     $checkParams = [$checkParams];
                 }
@@ -94,8 +102,8 @@ trait ValidTrait
      */
     public function errorParams(): array
     {
-        if ($this->errorId && isset($this->checkParams[$this->errorId])) {
-            return $this->checkParams[$this->errorId];
+        if ($this->errorId && isset($this->checkParams[$this->errorId][$this->i])) {
+            return $this->checkParams[$this->errorId][$this->i];
         }
         return [];
     }

@@ -24,8 +24,8 @@ class VBigId
     public function __construct(int ...$vs)
     {
         $this->values = $vs;
-        $this->checkParams['id'] = PHP_INT_MAX;
-        $this->checks['id'] = function (int $value): bool {
+        $this->checkParams['id'][] = PHP_INT_MAX;
+        $this->checks['id'][] = function (int $value): bool {
             return $value > 0 && $value <= PHP_INT_MAX;
         };
     }

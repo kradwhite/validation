@@ -27,8 +27,8 @@ class VId
     public function __construct(int ...$vs)
     {
         $this->values = $vs;
-        $this->checkParams['id'] = self::Max;
-        $this->checks['id'] = function (int $value): bool {
+        $this->checkParams['id'][] = self::Max;
+        $this->checks['id'][] = function (int $value): bool {
             return $value > 0 && $value <= self::Max;
         };
     }

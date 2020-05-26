@@ -41,9 +41,9 @@ class VString implements Validation
      */
     public function longer(int $c): VString
     {
-        $this->checkParams['longer'] = $c;
-        $this->checks['longer'] = function (string $value): bool {
-            return strlen($value) > $this->checkParams['longer'];
+        $this->checkParams['longer'][] = $c;
+        $this->checks['longer'][] = function (string $value, int $i): bool {
+            return strlen($value) > $this->checkParams['longer'][$i];
         };
         return $this;
     }
@@ -54,9 +54,9 @@ class VString implements Validation
      */
     public function shorter(int $c): VString
     {
-        $this->checkParams['shorter'] = $c;
-        $this->checks['shorter'] = function (string $value) {
-            return strlen($value) < $this->checkParams['shorter'];
+        $this->checkParams['shorter'][] = $c;
+        $this->checks['shorter'][] = function (string $value, int $i) {
+            return strlen($value) < $this->checkParams['shorter'][$i];
         };
         return $this;
     }
@@ -67,9 +67,9 @@ class VString implements Validation
      */
     public function longerEq(int $c): VString
     {
-        $this->checkParams['longerEq'] = $c;
-        $this->checks['longerEq'] = function (string $value): bool {
-            return strlen($value) >= $this->checkParams['longerEq'];
+        $this->checkParams['longerEq'][] = $c;
+        $this->checks['longerEq'][] = function (string $value, int $i): bool {
+            return strlen($value) >= $this->checkParams['longerEq'][$i];
         };
         return $this;
     }
@@ -80,9 +80,9 @@ class VString implements Validation
      */
     public function shorterEq(int $c): VString
     {
-        $this->checkParams['shorterEq'] = $c;
-        $this->checks['shorterEq'] = function (string $value): bool {
-            return strlen($value) <= $this->checkParams['shorterEq'];
+        $this->checkParams['shorterEq'][] = $c;
+        $this->checks['shorterEq'][] = function (string $value, int $i): bool {
+            return strlen($value) <= $this->checkParams['shorterEq'][$i];
         };
         return $this;
     }
@@ -93,9 +93,9 @@ class VString implements Validation
      */
     public function length(int $c): VString
     {
-        $this->checkParams['length'] = $c;
-        $this->checks['length'] = function (string $value): bool {
-            return strlen($value) === $this->checkParams['length'];
+        $this->checkParams['length'][] = $c;
+        $this->checks['length'][] = function (string $value, int $i): bool {
+            return strlen($value) === $this->checkParams['length'][$i];
         };
         return $this;
     }
@@ -106,9 +106,9 @@ class VString implements Validation
      */
     public function equals(string $t): VString
     {
-        $this->checkParams['equals'] = $t;
-        $this->checks['equals'] = function (string $value): bool {
-            return $value == $this->checkParams['equals'];
+        $this->checkParams['equals'][] = $t;
+        $this->checks['equals'][] = function (string $value, int $i): bool {
+            return $value == $this->checkParams['equals'][$i];
         };
         return $this;
     }
@@ -119,9 +119,9 @@ class VString implements Validation
      */
     public function notEquals(string $t): VString
     {
-        $this->checkParams['notEquals'] = $t;
-        $this->checks['notEquals'] = function (string $value): bool {
-            return $value != $this->checkParams['notEquals'];
+        $this->checkParams['notEquals'][] = $t;
+        $this->checks['notEquals'][] = function (string $value, int $i): bool {
+            return $value != $this->checkParams['notEquals'][$i];
         };
         return $this;
     }
@@ -133,10 +133,10 @@ class VString implements Validation
      */
     public function between(int $l, int $r): VString
     {
-        $this->checkParams['strBetween'] = [$l, $r];
-        $this->checks['strBetween'] = function (string $value): bool {
+        $this->checkParams['strBetween'][] = [$l, $r];
+        $this->checks['strBetween'][] = function (string $value, int $i): bool {
             $len = strlen($value);
-            return $len > $this->checkParams['strBetween'][0] && $len < $this->checkParams['strBetween'][1];
+            return $len > $this->checkParams['strBetween'][$i][0] && $len < $this->checkParams['strBetween'][$i][1];
         };
         return $this;
     }
@@ -148,10 +148,10 @@ class VString implements Validation
      */
     public function betweenEq(int $l, int $r): VString
     {
-        $this->checkParams['strBetweenEq'] = [$l, $r];
-        $this->checks['strBetweenEq'] = function (string $value): bool {
+        $this->checkParams['strBetweenEq'][] = [$l, $r];
+        $this->checks['strBetweenEq'][] = function (string $value, int $i): bool {
             $len = strlen($value);
-            return $len >= $this->checkParams['strBetweenEq'][0] && $len <= $this->checkParams['strBetweenEq'][1];
+            return $len >= $this->checkParams['strBetweenEq'][$i][0] && $len <= $this->checkParams['strBetweenEq'][$i][1];
         };
         return $this;
     }
@@ -163,10 +163,10 @@ class VString implements Validation
      */
     public function notBetween(int $l, int $r): VString
     {
-        $this->checkParams['strNotBetween'] = [$l, $r];
-        $this->checks['strNotBetween'] = function (string $value): bool {
+        $this->checkParams['strNotBetween'][] = [$l, $r];
+        $this->checks['strNotBetween'][] = function (string $value, int $i): bool {
             $len = strlen($value);
-            return $len < $this->checkParams['strNotBetween'][0] || $len > $this->checkParams['strNotBetween'][1];
+            return $len < $this->checkParams['strNotBetween'][$i][0] || $len > $this->checkParams['strNotBetween'][$i][1];
         };
         return $this;
     }
@@ -178,10 +178,10 @@ class VString implements Validation
      */
     public function notBetweenEq(int $l, int $r): VString
     {
-        $this->checkParams['strNotBetweenEq'] = [$l, $r];
-        $this->checks['strNotBetweenEq'] = function (string $value): bool {
+        $this->checkParams['strNotBetweenEq'][] = [$l, $r];
+        $this->checks['strNotBetweenEq'][] = function (string $value, int $i): bool {
             $len = strlen($value);
-            return $len <= $this->checkParams['strNotBetweenEq'][0] || $len >= $this->checkParams['strNotBetweenEq'][1];
+            return $len <= $this->checkParams['strNotBetweenEq'][$i][0] || $len >= $this->checkParams['strNotBetweenEq'][$i][1];
         };
         return $this;
     }
@@ -193,9 +193,9 @@ class VString implements Validation
      */
     public function match(string $p): VString
     {
-        $this->checkParams['match'] = $p;
-        $this->checks['match'] = function (string $value): bool {
-            $result = preg_match($this->checkParams['match'], $value);
+        $this->checkParams['match'][] = $p;
+        $this->checks['match'][] = function (string $value, int $i): bool {
+            $result = preg_match($this->checkParams['match'][$i], $value);
             if (is_bool($result)) {
                 throw new ValidationException(preg_last_error());
             }
@@ -210,9 +210,9 @@ class VString implements Validation
      */
     public function contains(string $t): VString
     {
-        $this->checkParams['contains'] = $t;
-        $this->checks['contains'] = function (string $value): bool {
-            return !is_bool(strpos($value, $this->checkParams['contains']));
+        $this->checkParams['contains'][] = $t;
+        $this->checks['contains'][] = function (string $value, int $i): bool {
+            return !is_bool(strpos($value, $this->checkParams['contains'][$i]));
         };
         return $this;
     }
@@ -223,9 +223,9 @@ class VString implements Validation
      */
     public function notContains(string $t): VString
     {
-        $this->checkParams['notContains'] = $t;
-        $this->checks['notContains'] = function (string $value): bool {
-            return is_bool(strpos($value, $this->checkParams['notContains']));
+        $this->checkParams['notContains'][] = $t;
+        $this->checks['notContains'][] = function (string $value, int $i): bool {
+            return is_bool(strpos($value, $this->checkParams['notContains'][$i]));
         };
         return $this;
     }
@@ -235,7 +235,7 @@ class VString implements Validation
      */
     public function digits(): VString
     {
-        $this->checks['digits'] = function (string $value): bool {
+        $this->checks['digits'][] = function (string $value, int $i): bool {
             return ctype_digit($value);
         };
         return $this;
@@ -246,7 +246,7 @@ class VString implements Validation
      */
     public function notDigits(): VString
     {
-        $this->checks['notDigits'] = function (string $value): bool {
+        $this->checks['notDigits'][] = function (string $value, int $i): bool {
             return !ctype_digit($value);
         };
         return $this;
@@ -257,7 +257,7 @@ class VString implements Validation
      */
     public function alpha(): VString
     {
-        $this->checks['alpha'] = function (string $value): bool {
+        $this->checks['alpha'][] = function (string $value, int $i): bool {
             return ctype_alpha($value);
         };
         return $this;
@@ -268,7 +268,7 @@ class VString implements Validation
      */
     public function notAlpha(): VString
     {
-        $this->checks['notAlpha'] = function (string $value): bool {
+        $this->checks['notAlpha'][] = function (string $value, int $i): bool {
             return !ctype_alpha($value);
         };
         return $this;
@@ -279,7 +279,7 @@ class VString implements Validation
      */
     public function alphaDigits(): VString
     {
-        $this->checks['alphaDigits'] = function (string $value): bool {
+        $this->checks['alphaDigits'][] = function (string $value, int $i): bool {
             return ctype_alnum($value);
         };
         return $this;
@@ -290,7 +290,7 @@ class VString implements Validation
      */
     public function notAlphaDigits(): VString
     {
-        $this->checks['notAlphaDigits'] = function (string $value): bool {
+        $this->checks['notAlphaDigits'][] = function (string $value, int $i): bool {
             return !ctype_alnum($value);
         };
         return $this;
@@ -302,9 +302,9 @@ class VString implements Validation
      */
     public function prefix(string $t): VString
     {
-        $this->checkParams['prefix'] = $t;
-        $this->checks['prefix'] = function (string $value): bool {
-            return strpos($value, $this->checkParams['prefix']) === 0;
+        $this->checkParams['prefix'][] = $t;
+        $this->checks['prefix'][] = function (string $value, int $i): bool {
+            return strpos($value, $this->checkParams['prefix'][$i]) === 0;
         };
         return $this;
     }
@@ -315,9 +315,9 @@ class VString implements Validation
      */
     public function suffix(string $t): VString
     {
-        $this->checkParams['suffix'] = $t;
-        $this->checks['suffix'] = function (string $value): bool {
-            return strpos($value, $this->checkParams['suffix']) === strlen($value) - strlen($this->checkParams['suffix']);
+        $this->checkParams['suffix'][] = $t;
+        $this->checks['suffix'][] = function (string $value, int $i): bool {
+            return strpos($value, $this->checkParams['suffix'][$i]) === strlen($value) - strlen($this->checkParams['suffix'][$i]);
         };
         return $this;
     }
@@ -328,10 +328,10 @@ class VString implements Validation
      */
     public function in(string ...$vs): VString
     {
-        $this->checkParams['in'] = $vs;
-        $this->checks['in'] = function (string $value): bool {
-            if(!$result = in_array($value, $this->checkParams['in'])){
-                $this->checkParams['in'] = '[' . implode(', ', $this->checkParams['in']) . ']';
+        $this->checkParams['in'][] = $vs;
+        $this->checks['in'][] = function (string $value, int $i): bool {
+            if (!$result = in_array($value, $this->checkParams['in'][$i])) {
+                $this->checkParams['in'][$i] = '[' . implode(', ', $this->checkParams['in'][$i]) . ']';
             }
             return $result;
         };
@@ -344,10 +344,10 @@ class VString implements Validation
      */
     public function notIn(string ...$vs): VString
     {
-        $this->checkParams['notIn'] = $vs;
-        $this->checks['notIn'] = function (string $value): bool {
-            if(!$result = !in_array($value, $this->checkParams['notIn'])){
-                $this->checkParams['notIn'] = '[' . implode(', ', $this->checkParams['notIn']) . ']';
+        $this->checkParams['notIn'][] = $vs;
+        $this->checks['notIn'][] = function (string $value, int $i): bool {
+            if (!$result = !in_array($value, $this->checkParams['notIn'][$i])) {
+                $this->checkParams['notIn'][$i] = '[' . implode(', ', $this->checkParams['notIn'][$i]) . ']';
             }
             return $result;
         };
