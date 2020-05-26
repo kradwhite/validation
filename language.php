@@ -23,7 +23,7 @@ return [
             'type' => 'php',
 
             // имена набора фраз, в файловом хранилище имена файлов
-            'names' => ['validation'],
+            'names' => ['validation', 'exception'],
 
             // путь к директории, которая будет хранить файлы в фразами
             'directory' => __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'language'

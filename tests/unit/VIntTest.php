@@ -128,7 +128,7 @@ class VIntTest extends \Codeception\Test\Unit
     public function testNotIn()
     {
         $this->assertEquals('', VInt::init(10)->notIn(100, 20, 30)->message('Число'));
-        $this->assertEquals('Значение Число не должно входить в спискок значений 100, 30, 20, 10',
+        $this->assertEquals('Значение Число не должно входить в список значений 100, 30, 20, 10',
             VInt::init(10)->notIn(100, 30, 20, 10)->message('Число'));
     }
 }

@@ -128,7 +128,7 @@ class VFloatTest extends \Codeception\Test\Unit
     public function testNotIn()
     {
         $this->assertEquals('', VFloat::init(1.01)->notIn(100.1, 20.3)->message('Число'));
-        $this->assertEquals('Значение Число не должно входить в спискок значений 100, 20, 20, 1.01',
+        $this->assertEquals('Значение Число не должно входить в список значений 100, 20, 20, 1.01',
             VFloat::init(1.01)->notIn(100, 20, 20, 1.01)->message('Число'));
     }
 }

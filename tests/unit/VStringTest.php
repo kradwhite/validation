@@ -23,35 +23,35 @@ class VStringTest extends \Codeception\Test\Unit
     public function testLonger()
     {
         $this->assertEquals('', VString::init("string")->longer(5)->message('строка'));
-        $this->assertEquals('Длинна строка должна быть минимум 15',
+        $this->assertEquals('Длина строка должна быть минимум 15',
             VString::init("string")->longer(15)->message('строка'));
     }
 
     public function testShorter()
     {
         $this->assertEquals('', VString::init("string")->shorter(15)->message('строка'));
-        $this->assertEquals('Длинна строка должна быть максимум 5',
+        $this->assertEquals('Длина строка должна быть максимум 5',
             VString::init("string")->shorter(5)->message('строка'));
     }
 
     public function testLongerEq()
     {
         $this->assertEquals('', VString::init("string")->longerEq(6)->message('строка'));
-        $this->assertEquals('Длинна строка должна быть минимум или равно 15',
+        $this->assertEquals('Длина строка должна быть минимум или равно 15',
             VString::init("string")->longerEq(15)->message('строка'));
     }
 
     public function testShorterEq()
     {
         $this->assertEquals('', VString::init("string")->shorterEq(6)->message('строка'));
-        $this->assertEquals('Длинна строка должна быть минимум или равна 2',
+        $this->assertEquals('Длина строка должна быть минимум или равна 2',
             VString::init("string")->shorterEq(2)->message('строка'));
     }
 
     public function testLength()
     {
         $this->assertEquals('', VString::init("string")->length(6)->message('строка'));
-        $this->assertEquals('Длинна строка должна равняться 2',
+        $this->assertEquals('Длина строка должна равняться 2',
             VString::init("string")->length(2)->message('строка'));
     }
 
@@ -72,28 +72,28 @@ class VStringTest extends \Codeception\Test\Unit
     public function testBetween()
     {
         $this->assertEquals('', VString::init("string")->between(1, 7)->message('строка'));
-        $this->assertEquals('Длинна строка не должна выходить за пределы между 1 и 6',
+        $this->assertEquals('Длина строка не должна выходить за пределы между 1 и 6',
             VString::init("string")->between(1, 6)->message('строка'));
     }
 
     public function testBetweenEq()
     {
         $this->assertEquals('', VString::init("string")->betweenEq(1, 6)->message('строка'));
-        $this->assertEquals('Длинна строка не должна выходить за пределы между 1 и 5 включительно',
+        $this->assertEquals('Длина строка не должна выходить за пределы между 1 и 5 включительно',
             VString::init("string")->betweenEq(1, 5)->message('строка'));
     }
 
     public function testNotBetween()
     {
         $this->assertEquals('', VString::init("string")->notBetween(10, 73)->message('строка'));
-        $this->assertEquals('Длинна строка должна выходить за пределы между 1 и 7',
+        $this->assertEquals('Длина строка должна выходить за пределы между 1 и 7',
             VString::init("string")->notBetween(1, 7)->message('строка'));
     }
 
     public function testNotBetweenEq()
     {
         $this->assertEquals('', VString::init("string")->notBetweenEq(7, 9)->message('строка'));
-        $this->assertEquals('Длинна строка должна выходить за пределы между 1 и 7 включительно',
+        $this->assertEquals('Длина строка должна выходить за пределы между 1 и 7 включительно',
             VString::init("string")->notBetweenEq(1, 7)->message('строка'));
     }
 
@@ -184,7 +184,7 @@ class VStringTest extends \Codeception\Test\Unit
     public function testNotIn()
     {
         $this->assertEquals('', VString::init('str')->notIn('str2', 'str3')->message('строка'));
-        $this->assertEquals('Значение строка не должно входить в спискок значений [str1, str3, str]',
+        $this->assertEquals('Значение строка не должно входить в список значений [str1, str3, str]',
             VString::init('str')->notIn('str1', 'str3', 'str')->message('строка'));
     }
 }

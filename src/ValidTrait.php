@@ -61,9 +61,7 @@ trait ValidTrait
     public function message(string $name): string
     {
         try {
-            if (!self::$lang) {
-                self::$lang = Lang::init(__DIR__ . '/../language.php', self::$locale);
-            }
+            $this->getLang();
             if (!$this->check()) {
                 $checkParams = isset($this->checkParams[$this->errorId]) ? $this->checkParams[$this->errorId] : [];
                 if (!is_array($checkParams)) {
@@ -73,7 +71,7 @@ trait ValidTrait
             }
             return '';
         } catch (DbException|LangException $e) {
-            $message = "Ошибка получения фразы с идентификатором '{$this->errorId}' в тексте 'validation'";
+            $message = self::$lang->phrase('exception', 'get-phrase-error', [$this->errorId]);
             throw new ValidationException($message, 0, $e);
         }
     }
@@ -108,5 +106,17 @@ trait ValidTrait
     public static function setLocale(string $locale)
     {
         self::$locale = $locale;
+    }
+
+    /**
+     * @return Lang
+     * @throws LangException
+     */
+    private function getLang(): Lang
+    {
+        if (!self::$lang) {
+            self::$lang = Lang::init(__DIR__ . '/../language.php', self::$locale);
+        }
+        return self::$lang;
     }
 }
